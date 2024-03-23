@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
-# Using puppet to change our configuration file
+# Automating my Tasks using Puppet
 
-file { 'etc/ssh/ssh_cofig':
-	ensure => present,
-
-content =>"
-
-	#SSH client configuration
-	host*
-	IdentityFile ~/.ssh/school
-	PasswordAuthentication no
-	",
-
+file { '/etc/ssh/ssh_config':
+  ensure  => present,
+content => "
+    # SSH client configuration
+    Host *
+      IdentityFile ~/.ssh/school
+      PasswordAuthentication no
+  ",
 }
