@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Configuring web-01 to have an response header
+# Configuring web-01 HTTP response header
 
 # updating packages
 sudo apt-get update
@@ -7,7 +7,7 @@ sudo apt-get install -y nginx
 
 # Creating an index page
 echo "Hello World!" | sudo tee /var/ww/html/index.html
-
+i
 # Performing a redirection
 new_string=" server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/Lawson-JR permanent;"
 
