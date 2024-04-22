@@ -36,7 +36,8 @@ def fetch_todo_list_progress(employee_id):
 
         # Display output
         print(
-            f"Employee {employee_name} is done with tasks({completed_tasks}/{total_tasks}):")
+            f"Employee {employee_name} is done with tasks({completed_tasks}/{total_tasks}):"
+        )
         for todo in todos:
             if todo["completed"]:
                 print(f"\t{todo['title']}")
