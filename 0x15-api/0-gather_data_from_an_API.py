@@ -7,6 +7,7 @@ import json
 import requests
 import sys
 
+
 def fetch_todo_list_progress(employee_id):
     """
     Function documentation goes here.
@@ -30,16 +31,19 @@ def fetch_todo_list_progress(employee_id):
         completed_tasks = sum(1 for todo in todos if todo["completed"])
 
         # Get employee name
-        employee_name = todos[0]["username"]  # Assuming username is available in the response
+        # Assuming username is available in the response
+        employee_name = todos[0]["username"]
 
         # Display output
-        print(f"Employee {employee_name} is done with tasks({completed_tasks}/{total_tasks}):")
+        print(
+            f"Employee {employee_name} is done with tasks({completed_tasks}/{total_tasks}):")
         for todo in todos:
             if todo["completed"]:
                 print(f"\t{todo['title']}")
 
     else:
         print("Failed to fetch TODO list. Please try again later.")
+
 
 if __name__ == "__main__":
     # Check if the correct number of arguments is provided

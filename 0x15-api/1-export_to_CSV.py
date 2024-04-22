@@ -8,6 +8,7 @@ import json
 import requests
 import sys
 
+
 def fetch_todo_list_progress(employee_id):
     """
     Function documentation goes here.
@@ -35,16 +36,19 @@ def fetch_todo_list_progress(employee_id):
             csv_writer = csv.writer(csvfile, delimiter=',')
 
             # Write header
-            csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+            csv_writer.writerow(
+                ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
 
             # Write data for each task
             for todo in todos:
-                csv_writer.writerow([todo["userId"], todo["username"], todo["completed"], todo["title"]])
+                csv_writer.writerow(
+                    [todo["userId"], todo["username"], todo["completed"], todo["title"]])
 
         print(f"CSV file '{csv_filename}' has been created successfully.")
 
     else:
         print("Failed to fetch TODO list. Please try again later.")
+
 
 if __name__ == "__main__":
     # Check if the correct number of arguments is provided
