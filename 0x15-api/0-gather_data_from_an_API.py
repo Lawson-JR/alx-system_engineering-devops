@@ -1,22 +1,54 @@
 #!/usr/bin/python3
-"""Returns to-do list information for a given employee ID."""
+"""
+Module documentation goes here.
+"""
 
-import requests
 import sys
+import json
+import requests
+
+def fetch_todo_list_progress(employee_id):
+    """
+    Function documentation goes here.
+    """
+    # Define the base URL of the API endpoint
+    base_url = "https://jsonplaceholder.typicode.com"
+
+    # Construct the URL with the employee ID
+    url = f"{base_url}/todos?userId={employee_id}"
+
+    # Make a GET request to the API
+    response = requests.get(url)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Parse JSON response
+        todos = response.json()
+
+        # Calculate progress
+        total_tasks = len(todos)
+        completed_tasks = sum(1 for todo in todos if todo["completed"])
+
+        # Get employee name
+        employee_name = todos[0]["username"]  # Assuming username is available in the response
+
+        # Display output
+        print(f"Employee {employee_name} is done with tasks({completed_tasks}/{total_tasks}):")
+        for todo in todos:
+            if todo["completed"]:
+                print(f"\t{todo['title']}")
+
+    else:
+        print("Failed to fetch TODO list. Please try again later.")
 
 if __name__ == "__main__":
-    url = "https://jsonplaceholder.typicode.com/"
+    # Check if the correct number of arguments is provided
+    if len(sys.argv) != 2:
+        print("Usage: python3 script.py <employee_id>")
+        sys.exit(1)
 
-    employee_id = sys.argv[1]
-    user_response = requests.get(url + "users/{}".format(employee_id))
-    user = user_response.json()
-    params = {"userId": employee_id}
-    todos_response = requests.get(url + "todos", params=params)
-    todos = todos_response.json()
-    completed = []
-    for todo in todos:
-        if todo.get("completed") is True:
-            completed.append(todo.get("title"))
-    print("Employee {} is done with tasks({}/{})".format(user.get("name"), len(completed), len(todos)))
-    for complete in completed:
-        print("\t{}".format(complete))
+    # Parse employee ID from command-line arguments
+    employee_id = int(sys.argv[1])
+
+    # Fetch and display TODO list progress
+    fetch_todo_list_progress(employee_id)
