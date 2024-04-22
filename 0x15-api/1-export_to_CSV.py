@@ -3,10 +3,10 @@
 Module documentation goes here.
 """
 
-import sys
+import csv
 import json
 import requests
-import csv
+import sys
 
 def fetch_todo_list_progress(employee_id):
     """
