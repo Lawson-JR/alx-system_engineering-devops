@@ -3,9 +3,9 @@
 Module documentation goes here.
 """
 
-import sys
 import json
 import requests
+import sys
 
 def fetch_todo_list_progress(employee_id):
     """
