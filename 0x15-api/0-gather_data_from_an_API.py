@@ -1,60 +1,30 @@
 #!/usr/bin/python3
-"""
-Module documentation goes here.
-"""
+'''
+gather employee data from API
+'''
 
-import json
+import re
 import requests
 import sys
 
+REST_API = "https://jsonplaceholder.typicode.com"
 
-def fetch_todo_list_progress(employee_id):
-    """
-    Function documentation goes here.
-    """
-    # Define the base URL of the API endpoint
-    base_url = "https://jsonplaceholder.typicode.com"
-
-    # Construct the URL with the employee ID
-    url = f"{base_url}/todos?userId={employee_id}"
-
-    # Make a GET request to the API
-    response = requests.get(url)
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Parse JSON response
-        todos = response.json()
-
-        # Calculate progress
-        total_tasks = len(todos)
-        completed_tasks = sum(1 for todo in todos if todo["completed"])
-
-        # Get employee name
-        # Assuming 'name' is available in the response (instead of 'username')
-        employee_name = todos[0]["name"]  # Changed from 'username' to 'name'
-
-        # Display output
-        print(
-            f"Employee {employee_name} is done with tasks "
-            f"({completed_tasks}/{total_tasks}):"
-        )
-        for todo in todos:
-            if todo["completed"]:
-                print(f"\t{todo['title']}")
-
-    else:
-        print("Failed to fetch TODO list. Please try again later.")
-
-
-if __name__ == "__main__":
-    # Check if the correct number of arguments is provided
-    if len(sys.argv) != 2:
-        print("Usage: python3 script.py <employee_id>")
-        sys.exit(1)
-
-    # Parse employee ID from command-line arguments
-    employee_id = int(sys.argv[1])
-
-    # Fetch and display TODO list progress
-    fetch_todo_list_progress(employee_id)
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        if re.fullmatch(r'\d+', sys.argv[1]):
+            id = int(sys.argv[1])
+            req = requests.get('{}/users/{}'.format(REST_API, id)).json()
+            task_req = requests.get('{}/todos'.format(REST_API)).json()
+            emp_name = req.get('name')
+            tasks = list(filter(lambda x: x.get('userId') == id, task_req))
+            completed_tasks = list(filter(lambda x: x.get('completed'), tasks))
+            print(
+                'Employee {} is done with tasks({}/{}):'.format(
+                    emp_name,
+                    len(completed_tasks),
+                    len(tasks)
+                )
+            )
+            if len(completed_tasks) > 0:
+                for task in completed_tasks:
+                    print('\t {}'.format(task.get('title')))
