@@ -31,8 +31,8 @@ def fetch_todo_list_progress(employee_id):
         completed_tasks = sum(1 for todo in todos if todo["completed"])
 
         # Get employee name
-        # Assuming username is available in the response
-        employee_name = todos[0]["username"]
+        # Assuming 'name' is available in the response (instead of 'username')
+        employee_name = todos[0]["name"]  # Changed from 'username' to 'name'
 
         # Display output
         print(
